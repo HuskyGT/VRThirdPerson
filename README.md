@@ -4,6 +4,10 @@ This mod lets you play the game in a third person perspective.
 <br>
 # [Discord](https://discord.com/invite/zVpbtgmehp) 
 # [Preview](https://www.youtube.com/@huskygt)
+# Controls
+Press right stick to toggle third person mode
+<br>
+Move around the left stick to rotate the third person camera around the gorilla 
 # Requirements
 Utilla
 # Config
