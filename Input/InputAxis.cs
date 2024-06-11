@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class InputAxis : InputState
+namespace VRThirdPerson.Input
 {
-    public Vector2 axisPosition;
-
-    public void UpdateInput(float currentInputValue, Vector2 axisPosition)
+    public class InputAxis : InputState
     {
-        UpdateInput(currentInputValue);
-        this.axisPosition = axisPosition;
+        public Vector2 axisPosition;
+
+        public void UpdateInput(float currentInputValue, Vector2 axisPosition)
+        {
+            UpdateInput(currentInputValue);
+            this.axisPosition = axisPosition;
+        }
     }
 }

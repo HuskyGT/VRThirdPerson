@@ -1,7 +1,9 @@
 ﻿using BepInEx;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Utilla;
+using VRThirdPerson.Input;
 
 namespace VRThirdPerson
 {
@@ -16,10 +18,13 @@ namespace VRThirdPerson
         public static float tpCamOffsetValue = 2f;
         public static bool inverseCameraRotation = true;
         public static bool cameraClipping = false;
-        
+        public static float deadZone;
+
         bool modEnabled;
         bool inRoom;
         Camera tpCam;
+
+
 
         void Awake()
         {
@@ -74,7 +79,8 @@ namespace VRThirdPerson
             if (!tpCam.enabled)
                 return;
 
-            if (VRInput.leftHand.thumbstick.axisPosition != Vector2.zero)
+            var thumbstickAxis = VRInput.leftHand.thumbstick.axisPosition;
+            if (Mathf.Abs(thumbstickAxis.x) > deadZone || Mathf.Abs(thumbstickAxis.y) > deadZone)
             {
                 camParentTransform.transform.Rotate(new Vector3((inverseCameraRotation ? -1 : 1), 0, 0), (VRInput.leftHand.thumbstick.axisPosition.y * 180) * Time.deltaTime);
                 camParentTransform.transform.Rotate(new Vector3(0, (inverseCameraRotation ? -1 : 1), 0), -(VRInput.leftHand.thumbstick.axisPosition.x * 180) * Time.deltaTime, Space.World);
@@ -82,7 +88,7 @@ namespace VRThirdPerson
 
             camParentTransform.position = GorillaLocomotion.Player.Instance.bodyCollider.transform.position;
             tpCamTransform.rotation = GorillaLocomotion.Player.Instance.headCollider.transform.rotation;
-            if (cameraClipping)
+            if (!cameraClipping)
             {
                 if (Physics.Raycast(GorillaLocomotion.Player.Instance.headCollider.transform.position, -camParentTransform.transform.forward, out var hitInfo, tpCamOffsetValue, GorillaLocomotion.Player.Instance.locomotionEnabledLayers))
                 {
